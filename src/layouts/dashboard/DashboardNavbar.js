@@ -130,6 +130,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
       // console.log("not there")
       handleClose()
       setErr(["This patient does not exist!","error"])
+      setOpenAlert(true);
       return
     }
     else{
@@ -139,23 +140,31 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             
             axiosInstance.post('email/',{patid:idRef.current.value,doctid:obj['id']})
             .then((res)=>{
-                navigate('/dashboard/staff')
+                
+                // navigate('/dashboard/staff')
+                
+                // navigate('/dashboard/staff')
+                location.reload()
                 handleClose()
                 setOpensnack(true)
 
             })
             .catch((err)=>{
                 setErr([err.response.data,"error"])
+                setOpenAlert(true);
             })
+            
   
         })
         .catch((err)=>{
             setErr([err.response.data,"error"])
+            setOpenAlert(true);
         })
       }
       else{
         handleClose()
         setErr(["Patient has already been added!","info"])
+        setOpenAlert(true);
       }
 
     }
@@ -163,6 +172,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
     else{
       handleClose()
       setErr(["Please input a valid Patient ID!","warning"])
+      setOpenAlert(true);
     }
     
 

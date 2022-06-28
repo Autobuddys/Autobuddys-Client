@@ -12,12 +12,12 @@ export default function SearchNotFound({ searchQuery = '', ...other }) {
   return (
     <Paper {...other}>
       <Typography gutterBottom align="center" variant="subtitle1">
-        Not found
+        {/* Not found */}
       </Typography>
       <Typography variant="body2" align="center">
         {/* Not Found */}
-        {/* No results found for &nbsp;
-        <strong>&quot;{searchQuery}&quot;</strong>. Try checking for typos or using complete words. */}
+        No results found for &nbsp;
+        <strong>&quot;{searchQuery}&quot;</strong>. Try checking for typos or using complete words.
       </Typography>
     </Paper>
   );

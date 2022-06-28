@@ -54,6 +54,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName,
   
 
   const removeUsers=()=>{
+    console.log(whatselected)
     for(let i=0;i<whatselected.length;i++){
       axiosInstance.get(`getnotid/${whatselected[i]}`)
       .then((res)=>{
