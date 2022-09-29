@@ -7,7 +7,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axiosInstance from 'src/axiosInstance';
-import axios from 'axios'
+import axios from 'axios';
+import ReportComp from '../components/ReportComp';
 
 
 export default function Report() {
@@ -308,6 +309,7 @@ export default function Report() {
             </Button>
         </Stack>
         
+        <ReportComp />
 
         {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <BlogPostsSearch posts={POSTS} />
