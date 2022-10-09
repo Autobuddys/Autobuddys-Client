@@ -44,7 +44,9 @@ export default function Report() {
   }
 
   
-
+  const handleReportx = () => {
+    
+  }
 
   const handleReport = async (e)=>{
     e.preventDefault();
@@ -285,7 +287,7 @@ export default function Report() {
               style={{width:'150px',alignSelf:'center',fontSize:'17px'}}
               size="large"
               variant="contained"
-              onClick={handleReport}
+              onClick={handleReportx}
               >
               Get Report
             </Button>

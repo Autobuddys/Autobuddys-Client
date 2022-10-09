@@ -13,7 +13,10 @@ const ReportComp = () => {
             borderRadius: "1rem",
           }}
         >
-          <div  className="report" style={{ backgroundColor: "white", padding: "3rem" }}>
+          <div
+            id="report"
+            style={{ backgroundColor: "white", padding: "3rem" }}
+          >
             <img
               src="/static/logoFinal.svg"
               alt="Logo"
@@ -23,12 +26,22 @@ const ReportComp = () => {
               <h2>Health Report</h2>
             </div>
             <div className="contents">
-              Pateint Name: <br />
-              Phone Number(Patient): <br />
-              Patient Age: <br />
-              Patient Address: <br />
-              Doctor Name: <br />
-              Contact Number(Doctor):
+              <ul style={{ listStyle: "none" }}>
+                <li>Pateint Name: </li>
+                <li>Phone Number(Patient): </li>
+                <li>Patient Age: </li>
+                <li>Patient Address: </li>
+                <li>Doctor Name: </li>
+                <li>Contact Number(Doctor): </li>
+                <li>Report Generated Duration : </li>
+                <li>Timestamp of Report Generation : </li>
+              </ul>
+              <ul style={{ listStyle: "none", margin: '1rem auto' }}>
+                <li>Temperature Average: </li>
+                <li>SpO<sub>2</sub> Average: </li>
+                <li>Blood Pressure Average: </li>
+                <li>Beats Per Minute(BPM) Average: </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -37,10 +50,17 @@ const ReportComp = () => {
           style={{ width: "150px", alignSelf: "center", fontSize: "17px" }}
           size="large"
           variant="contained"
-          onClick={ () => {
-            const report = document.querySelector(".report");
-            html2pdf().from(report).save();
-          } }
+          onClick={() => {
+            var reportPrint = document.querySelector("#report");
+            var opt = {
+              margin: 0,
+              filename: "Report.pdf",
+              image: { type: "jpeg", quality: 0.98 },
+              html2canvas: { scale: 1, scrollY: 0 },
+              jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+            };
+            html2pdf().set(opt).from(reportPrint).save();
+          }}
         >
           Print
         </Button>
