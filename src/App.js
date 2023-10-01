@@ -19,7 +19,6 @@ export default function App() {
   return (
     
       <ThemeConfig>
-        
           <ScrollToTop />
           <GlobalStyles />
           <BaseOptionChartStyle />

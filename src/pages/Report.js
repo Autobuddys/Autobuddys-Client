@@ -48,6 +48,8 @@ export default function Report() {
   const handleReport = async (e)=>{
     e.preventDefault();
     let now = new Date();
+    // let urltp="https://autobuddys-server.herokuapp.com"
+    let urltp="http://127.0.0.1:8000"
     if(from && to){
       
       if(((from.getFullYear()-to.getFullYear()<0) 
@@ -69,7 +71,7 @@ export default function Report() {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://autobuddys-server.herokuapp.com/elder/report-data/3`,{
+            axios.get(`${urltp}/elder/report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
@@ -102,7 +104,7 @@ export default function Report() {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://autobuddys-server.herokuapp.com/elder/report-data/3`,{
+            axios.get(`${urltp}/elder/report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
@@ -133,7 +135,7 @@ export default function Report() {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://autobuddys-server.herokuapp.com/elder/report-data/3`,{
+            axios.get(`${urltp}/elder/report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
