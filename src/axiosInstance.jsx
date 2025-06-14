@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const BaseUrl = "https://autobuddys.aim4u.co.in/elder";
+// const BaseUrl = "http://localhost:8000/elder";
 // const BaseUrl = 'http://127.0.0.1:8000/elder/'
+const BaseUrl = "https://autobuddys.aim4u.co.in/elder";
 
 const axiosInstance = axios.create({
   baseURL: BaseUrl,

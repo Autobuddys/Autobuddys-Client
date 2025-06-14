@@ -47,7 +47,7 @@ const DashboardApp=()=> {
     
     if(patientID){
       async function getData() {
-        await axiosInstance.get(`vitals/${patientID}`)
+        await axiosInstance.get(`elder/vitals/${patientID}`)
         .then((res)=>{
           if(res.data=="No readings for today!"){
             setNottoday(res.data)

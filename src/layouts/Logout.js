@@ -5,7 +5,7 @@ import axiosInstance from 'src/axiosInstance';
 const Logout = () => {
   useEffect(()=>{
       function logoutUser(){
-          const response = axiosInstance.post('/auth/logout/blacklist/', {
+          const response = axiosInstance.post('elder/auth/logout/blacklist/', {
               refresh_token: localStorage.getItem('refresh_token'),
           });
           localStorage.removeItem('access_token');

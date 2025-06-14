@@ -129,10 +129,10 @@ const RootStyle = styled(Page)(({ theme }) => ({
           var contentType = block[0].split(":")[1];
           var realData = block[1].split(",")[1];
         
-          axiosInstance.post('patient/',{patrel:obj['id'],pname:nameRef.current.value,pphone:phoneRef.current.value,page:ageRef.current.value,address:addressRef.current.value,city:cityRef.current.value,state:stateRef.current.value,pincode:pinRef.current.value,dname:dnameRef.current.value,dphone:dphoneRef.current.value})
+          axiosInstance.post('elder/patient/',{patrel:obj['id'],pname:nameRef.current.value,pphone:phoneRef.current.value,page:ageRef.current.value,address:addressRef.current.value,city:cityRef.current.value,state:stateRef.current.value,pincode:pinRef.current.value,dname:dnameRef.current.value,dphone:dphoneRef.current.value})
           .then((res)=>{
            
-              axiosInstance.post('imagepost/',{pname:res.data.pname,patid:res.data.id,imgstr:realData,type:contentType})
+              axiosInstance.post('elder/imagepost/',{pname:res.data.pname,patid:res.data.id,imgstr:realData,type:contentType})
               .then((res)=>{
                 navigate('/dashboard/app')
               })

@@ -15,7 +15,7 @@ export default function AccountPopover(props) {
 
 
   const handleOpen =async () => {
-    await axiosInstance.get(`relative-list/${props.user.id}`)
+    await axiosInstance.get(`elder/relative-list/${props.user.id}`)
       .then(response=>{
           if(response.data===""){
               console.log('gadbad jhala')

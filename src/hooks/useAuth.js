@@ -26,7 +26,7 @@ export default function useAuth() {
 
     //set user
     const setUserContext = async () => {
-        return await axiosInstance.post('verify/')
+        return await axiosInstance.post('elder/verify/')
         .then(res => { 
             const obj = JSON.parse(res.data)
             setUser(res.data); 
@@ -48,11 +48,11 @@ export default function useAuth() {
     const registerUser = async (name, email, phone, password, is_medical,hospname=null,address=null,city=null,state=null,pincode=null) => {
         
         
-        return axiosInstance.post('profile/',{name,email,password,phone,is_medical})
+        return axiosInstance.post('elder/profile/',{name,email,password,phone,is_medical})
         .then((res)=>{
             if(is_medical){
                 // console.log(res.data['id'])
-                axiosInstance.post('medstaff/',{medstaff:res.data['id'],hospname,address,city,state,pincode}) 
+                axiosInstance.post('elder/medstaff/',{medstaff:res.data['id'],hospname,address,city,state,pincode}) 
                 .then((res)=>navigate('/login'))    
                 .catch(err=>setErr(err.response.data))          
             }
@@ -76,7 +76,7 @@ export default function useAuth() {
 
     //login user 
     const loginUser = async (email,password) => {
-        return (axiosInstance.post(`/auth/token/`, {
+        return (axiosInstance.post(`elder/auth/token/`, {
           email,
           password,
         })
