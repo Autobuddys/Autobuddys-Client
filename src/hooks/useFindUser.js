@@ -8,7 +8,7 @@ export default function useFindUser() {
 
     useEffect(() =>{
         async function findUser() {
-        await axiosInstance.post('verify/')
+        await axiosInstance.post('elder/verify/')
         .then(res => {
             setUser(res.data);
             // console.log("userdaat: ",res.data)

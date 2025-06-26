@@ -53,7 +53,7 @@ export default function Report() {
   const handleReport = async (e) => {
     e.preventDefault();
     let now = new Date();
-    let urltp = "http://3.108.227.6";
+    let urltp = "https://elderly-server.autobuddys.in/"
     // let urltp="http://127.0.0.1:8000"
     if (from && to) {
       if (

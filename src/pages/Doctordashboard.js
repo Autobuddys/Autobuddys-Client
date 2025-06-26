@@ -325,7 +325,7 @@ export default function Doctordashboard(props) {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://autobuddys-server.herokuapp.com/elder/report-data/3`,{
+            axios.get(`https://elderly-server.autobuddys.in/elder/report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
@@ -358,7 +358,7 @@ export default function Doctordashboard(props) {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://autobuddys-server.herokuapp.com/elder/report-data/3`,{
+            axios.get(`https://elderly-server.autobuddys.in/elder/report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
@@ -389,7 +389,7 @@ export default function Doctordashboard(props) {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://autobuddys-server.herokuapp.com/elder/report-data/3`,{
+            axios.get(`https://elderly-server.autobuddys.in/report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
