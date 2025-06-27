@@ -12,7 +12,7 @@ Logo.propTypes = {
 export default function Logo({ sx }) {
   return (
     <RouterLink to="/">
-      <Box component="img" src="/static/logoFinal.svg" sx={{ width: 250, height: 80, ...sx }} />
+      <Box component="img" src="/static/logo.png" sx={{ width: 250, height: 80, ...sx }} />
     </RouterLink>
   );
 }
