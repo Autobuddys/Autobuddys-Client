@@ -106,7 +106,7 @@ export default function RegisterForm() {
             inputRef={emailRef}
             autoComplete="username"
             type="email"
-            label="Email address"
+            label="Email Address"
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}

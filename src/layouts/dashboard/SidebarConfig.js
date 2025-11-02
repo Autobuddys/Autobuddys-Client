@@ -16,11 +16,6 @@ if(patientID){
       icon: getIcon('eva:pie-chart-2-fill')
     },
     {
-      title: 'Patient Profile',
-      path: '/dashboard/user',
-      icon: getIcon('eva:person-fill')
-    },
-    {
       title: 'Charts',
       path: '/dashboard/charts',
       icon: getIcon('eva:bar-chart-2-fill')
@@ -34,6 +29,11 @@ if(patientID){
       title: 'Notifications',
       path: '/dashboard/notifications',
       icon: getIcon('eva:bell-fill')
+    },
+    {
+      title: 'Patient Profile',
+      path: '/dashboard/user',
+      icon: getIcon('eva:person-fill')
     },
     {
       title: 'Logout',

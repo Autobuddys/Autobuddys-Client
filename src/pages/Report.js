@@ -53,8 +53,7 @@ export default function Report() {
   const handleReport = async (e) => {
     e.preventDefault();
     let now = new Date();
-    let urltp = "https://elderly-server.autobuddys.in/"
-    // let urltp="http://127.0.0.1:8000"
+    let urltp = process.env.REACT_APP_SERVER_URL
     if (from && to) {
       if (
         (from.getFullYear() - to.getFullYear() < 0 ||
@@ -92,7 +91,7 @@ export default function Report() {
           .then((res) => {
             if (res.data === "done!") {
               axios
-                .get(`${urltp}/elder/report-data/3`, {
+                .get(`${urltp}report-data/3`, {
                   headers: {
                     Authorization: localStorage.getItem("access_token")
                       ? "JWT " + localStorage.getItem("access_token")
@@ -130,7 +129,7 @@ export default function Report() {
           .then((res) => {
             if (res.data === "done!") {
               axios
-                .get(`${urltp}/elder/report-data/3`, {
+                .get(`${urltp}report-data/3`, {
                   headers: {
                     Authorization: localStorage.getItem("access_token")
                       ? "JWT " + localStorage.getItem("access_token")
@@ -164,7 +163,7 @@ export default function Report() {
           .then((res) => {
             if (res.data === "done!") {
               axios
-                .get(`${urltp}/elder/report-data/3`, {
+                .get(`${urltp}report-data/3`, {
                   headers: {
                     Authorization: localStorage.getItem("access_token")
                       ? "JWT " + localStorage.getItem("access_token")

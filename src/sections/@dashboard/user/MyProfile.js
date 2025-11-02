@@ -32,6 +32,7 @@ const MyProfile = () => {
     const cityRef = useRef();
     const stateRef = useRef();
     const pinRef = useRef();
+    const modelnumberRef = useRef();
 
     const relmailRef = useRef()
     const relnameRef = useRef()
@@ -75,7 +76,7 @@ const MyProfile = () => {
       e.preventDefault();
       // console.log("called")
 
-      axiosInstance.put(`patient/${localStorage.getItem("patientID")}/`,{patrel:obj['id'],pname:nameRef.current.value,pphone:phoneRef.current.value,page:ageRef.current.value,address:addressRef.current.value,city:cityRef.current.value,state:stateRef.current.value,pincode:pinRef.current.value,dname:dnameRef.current.value,dphone:dphoneRef.current.value})
+      axiosInstance.put(`patient/${localStorage.getItem("patientID")}/`,{patrel:obj['id'],pname:nameRef.current.value,pphone:phoneRef.current.value,page:ageRef.current.value,address:addressRef.current.value,city:cityRef.current.value,state:stateRef.current.value,pincode:pinRef.current.value,modelnumber: modelnumberRef.current.value,dname:dnameRef.current.value,dphone:dphoneRef.current.value})
         .then((res)=>{
             // console.log(res)
             location.reload()
@@ -90,6 +91,7 @@ const MyProfile = () => {
 
   return (
     <RootStyle title="Profile | AutoBuddys">
+      {console.log(prof)}
 
       {prof?<>
         
@@ -118,16 +120,6 @@ const MyProfile = () => {
                       type="text"
                       label="Patient Name"
                       defaultValue={prof[0]['pname']}
-                  />
-                  <TextField
-                      fullWidth
-                      autoComplete="ID"
-                      type="number"
-                      label="Patient ID"
-                      defaultValue={prof[0]['id']}
-                      inputProps={
-                        { readOnly: true, }
-                      }
                   />
                   </Stack>
                   
@@ -187,6 +179,15 @@ const MyProfile = () => {
                       defaultValue={prof[0]['pincode']}
                   />
                   
+                  <TextField
+                      fullWidth
+                      inputRef={modelnumberRef}
+                      autoComplete="modelnumber"
+                      type="text"
+                      label="Model Number"
+                      defaultValue={prof[0]['modelnumber']}
+                  />
+
                   <Stack direction="row" spacing={2}>
                       <TextField
                           fullWidth
@@ -201,7 +202,7 @@ const MyProfile = () => {
                           inputRef={dphoneRef}
                           autoComplete="phone"
                           type="text"
-                          label="Doctor's Contact Detail"
+                          label="Doctor's Contact Number"
                           defaultValue={prof[0]['dphone']}
                       />  
                   </Stack> 
@@ -239,30 +240,29 @@ const MyProfile = () => {
                   <Stack spacing={3}>
                   <TextField
                       fullWidth
+                      inputRef={relnameRef}
+                      autoComplete="name"
+                      type="text"
+                      label="Relative Name"
+                      defaultValue={prof[1]['name']}
+                  /> 
+                  <TextField
+                      fullWidth
                       inputRef={relmailRef}
                       autoComplete="email"
                       type="email"
                       label="Relative Email"
                       defaultValue={prof[1]['email']}
-                  />
-                  <Stack direction="row" spacing={2}>
-                      <TextField
-                          fullWidth
-                          inputRef={relnameRef}
-                          autoComplete="name"
-                          type="text"
-                          label="Relative Name"
-                          defaultValue={prof[1]['name']}
-                      />   
-                      <TextField
-                          fullWidth
-                          inputRef={relphoneRef}
-                          autoComplete="phone"
-                          type="text"
-                          label="Relative Phone"
-                          defaultValue={prof[1]['phone']}
-                      />  
-                  </Stack> 
+                  /> 
+                  <TextField
+                      fullWidth
+                      inputRef={relphoneRef}
+                      autoComplete="phone"
+                      type="text"
+                      label="Relative Phone"
+                      defaultValue={prof[1]['phone']}
+                  />  
+                  
 
                   <Button
                   style={{width:'150px',alignSelf:'center'}}

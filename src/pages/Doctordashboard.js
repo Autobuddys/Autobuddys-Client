@@ -49,6 +49,7 @@ import axios from 'axios'
 
 
 // ----------------------------------------------------------------------
+const BaseUrl = process.env.REACT_APP_SERVER_URL
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Patient Name', alignRight: false },
@@ -312,7 +313,7 @@ export default function Doctordashboard(props) {
       && (((from.getFullYear()<now.getFullYear()) && (to.getFullYear()<now.getFullYear())) || ((from.getFullYear()==now.getFullYear()) && (to.getFullYear()==now.getFullYear()) && ((from.getMonth()<now.getMonth()) && (to.getMonth()<now.getMonth()) || (from.getMonth()==now.getMonth()) && (to.getMonth()==now.getMonth()) && (from.getDate()<=now.getDate()) && (to.getDate()<=now.getDate()))))
       ){
         // console.log(from.getDate(),to.getDate())
-        await axiosInstance.post('/report-data/', {
+        await axiosInstance.post('report-data/', {
           type:"dates",
           fromY:from.getFullYear(),
           toY:to.getFullYear(),
@@ -325,7 +326,7 @@ export default function Doctordashboard(props) {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://elderly-server.autobuddys.in/elder/report-data/3`,{
+            axios.get(`${BaseUrl}report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
@@ -349,7 +350,7 @@ export default function Doctordashboard(props) {
     }
     else if(monyear){
       if(monyear.getFullYear()<=now.getFullYear() && monyear.getMonth()<=now.getMonth()){
-        await axiosInstance.post('/report-data/', {
+        await axiosInstance.post('report-data/', {
           type:"dates",
           fromY:monyear.getFullYear(),
           fromM:monyear.getMonth(),
@@ -358,7 +359,7 @@ export default function Doctordashboard(props) {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://elderly-server.autobuddys.in/elder/report-data/3`,{
+            axios.get(`${BaseUrl}report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },
@@ -381,7 +382,7 @@ export default function Doctordashboard(props) {
     }
     else if(year){
       if(year.getFullYear()<=now.getFullYear()){
-        await axiosInstance.post('/report-data/', {
+        await axiosInstance.post('report-data/', {
           type:"dates",
           fromY:year.getFullYear(),
           dur:"year",
@@ -389,7 +390,7 @@ export default function Doctordashboard(props) {
         })
         .then((res)=>{
           if(res.data==='done!'){
-            axios.get(`https://elderly-server.autobuddys.in/report-data/3`,{
+            axios.get(`${BaseUrl}report-data/3`,{
             headers: {
               Authorization: localStorage.getItem('access_token')? ('JWT ' + localStorage.getItem('access_token')): null,
             },

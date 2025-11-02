@@ -1,6 +1,6 @@
 // material
 import React,{useContext,useEffect,useState} from 'react'
-import { Box, Grid, Container, Typography,Alert, Button } from '@mui/material';
+import { Box, Grid, Container,  MenuItem, List, ListItem, Typography,Alert, Button, ListItemText, ListItemButton, Divider } from '@mui/material';
 
 // components
 import Page from '../components/Page';
@@ -42,12 +42,66 @@ const DashboardApp=()=> {
   else if(!patientID && !obj['is_medical']){
     alert=<Alert severity="error" style={{width:'500px'}}>Click on the choose a patient button!</Alert>;
   }
+  
+  const [patprof,setPatprof] = useState([])
+
+  // const listPatients = async () => {
+  //   console.log(`relative-list/${obj.id}`)
+  //   await axiosInstance.get(`relative-list/${obj.id}`)
+  //     .then(response=>{
+  //         if(response.data===""){
+  //             console.log('gadbad jhala')
+  //             setPatprof([])
+  //         }
+  //         else{
+  //             console.log(response)
+  //             setPatprof(response.data)
+  //         }
+  //     })
+  //     .catch(err=>{
+  //         console.log(err)
+  //     })
+  // };
+
+
+  useEffect(() =>{
+        async function listPatients() {
+        console.log(`relative-list/${obj.id}`)
+    await axiosInstance.get(`relative-list/${obj.id}`)
+      .then(response=>{
+          if(response.data===""){
+              console.log('gadbad jhala')
+              setPatprof([])
+          }
+          else{
+              console.log(response)
+              setPatprof(response.data)
+          }
+      })
+      .catch(err=>{
+          console.log(err)
+      })
+
+        }
+        
+        listPatients();  
+    }, []);
+  
+  const changePatient=(id,name)=>{
+    console.log(id)
+    localStorage.removeItem('patientID');
+    localStorage.removeItem('patientName');
+    localStorage.setItem('patientID', id);
+    localStorage.setItem('patientName', name);
+    location.reload();
+  }
+
 
   useEffect(()=>{
     
     if(patientID){
       async function getData() {
-        await axiosInstance.get(`elder/vitals/${patientID}`)
+        await axiosInstance.get(`vitals/${patientID}`)
         .then((res)=>{
           if(res.data=="No readings for today!"){
             setNottoday(res.data)
@@ -148,7 +202,49 @@ const DashboardApp=()=> {
         <Grid item xs={12} md={6} lg={8}>
           <AppTasks />
         </Grid> */}
-      </Grid>:alert
+      </Grid>:
+      
+      <div>
+        {/* Display the alert */}
+        {alert}
+        
+        
+        {console.log(patprof)}
+
+        {/* Conditionally render the patient profiles if there are any */}
+        {patprof && patprof.length > 0 && (
+          <List>
+            {patprof.map((option, index) => (
+              <Box key={index}>
+                <ListItem
+                  onClick={() => changePatient(option.id, option.pname)} 
+                  to="#"
+                  sx={{
+                    py: 1,
+                    px: 2.5,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    textDecoration: 'none', // Optional: remove default link styling
+                  }}
+                >
+                  <ListItemButton 
+                    divider={true}>
+
+                  <ListItemText
+                    primary={`${option.id} - ${option.pname} (${option.pphone})`} // Showing ID and Name
+                    primaryTypographyProps={{
+                      variant: 'body1',
+                    }}
+                  />
+                  </ListItemButton>
+                </ListItem>
+
+              </Box>
+            ))}
+          </List>
+        )}
+      </div>
+
       }
         
       </Container>

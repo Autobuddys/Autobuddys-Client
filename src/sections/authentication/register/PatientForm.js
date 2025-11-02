@@ -81,10 +81,13 @@ const RootStyle = styled(Page)(({ theme }) => ({
     const cityRef = useRef();
     const stateRef = useRef();
     const pinRef = useRef();
+    const modelnumberRef = useRef();
     const webcamRef = useRef(null);
     const [err,setErr] = useState();
     const [image,setImage] = useState('');
     const [pat,setPat]=useState()
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const { user } = useContext(UserContext);
     const obj = JSON.parse(user)
@@ -98,19 +101,142 @@ const RootStyle = styled(Page)(({ theme }) => ({
     });
 
     const PatientSchema = Yup.object().shape({
-        name: Yup.string().required('Patient name is required'),
-        age: Yup.number().min(20).required('Patient age is required'),
-        address: Yup.string().required('Patient address is required'),
-        city: Yup.string().required('Patient city is required'),
-        state: Yup.string().required('Patient state is required'),
-        dname: Yup.string().required('Doctor name is required'),
-        dphone: Yup.string().min(10, 'Invalid!').max(11, 'Invalid!').required('Doctor/Hospital contact detail required'),
+        name: Yup.string().required('Patient Name is required'),
+        age: Yup.number().min(20).required('Patient Age is required'),
+        address: Yup.string().required('Patient Address is required'),
+        city: Yup.string().required('Patient City is required'),
+        state: Yup.string().required('Patient State is required'),
+        dname: Yup.string().required('Doctor Name is required'),
+        dphone: Yup.string().min(10, 'Invalid!').max(11, 'Invalid!').required('Doctor/Hospital Contact Number required'),
         pincode: Yup.number().required('Pincode required'),
+        modelnumber: Yup.string().required('Model Number is required'),
     });
+
+    const checkStatus = (modelId, patientId) => {
+      axiosInstance
+        .get(`status/${modelId}/`)
+        .then((res) => {
+          console.log("Status response:", res.data);
+          if (res.data.status === "pending") {
+            setMessage("Waiting for enrollment...");
+            setLoading(true); // show spinner
+            setTimeout(() => checkStatus(modelId), 10000); // check again in 10s
+          } 
+          else if (res.data.status === "success"){
+            setMessage("Enrollment completed!");
+            setLoading(false); // hide spinner
+          }
+          else {
+            axiosInstance
+            .delete(`patient/${patientId}/`, {
+              patrel: obj.id,
+              pname: nameRef.current.value,
+              pphone: phoneRef.current.value,
+              page: ageRef.current.value,
+              address: addressRef.current.value,
+              city: cityRef.current.value,
+              state: stateRef.current.value,
+              pincode: pinRef.current.value,
+              modelnumber: modelnumberRef.current.value,
+              dname: dnameRef.current.value,
+              dphone: dphoneRef.current.value,
+            })
+            .then((res)=>{
+                console.log(res)
+            })
+            .catch((error)=>{
+                
+                setErr(error.response?.data || "Error deleting");
+            })
+            setMessage("Enrollment failed!");
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          axiosInstance
+            .delete(`patient/${patientId}/`, {
+              patrel: obj.id,
+              pname: nameRef.current.value,
+              pphone: phoneRef.current.value,
+              page: ageRef.current.value,
+              address: addressRef.current.value,
+              city: cityRef.current.value,
+              state: stateRef.current.value,
+              pincode: pinRef.current.value,
+              modelnumber: modelnumberRef.current.value,
+              dname: dnameRef.current.value,
+              dphone: dphoneRef.current.value,
+            })
+            .then((res)=>{
+                console.log(res)
+            })
+            .catch((error)=>{
+                
+                setErr(error.response?.data || "Error deleting");
+            })
+          setErr(error.response?.data || "Error checking status");
+          setLoading(false);
+        });
+    };
+
+    // const formik = useFormik({
+    //     initialValues: {
+    //     name: '',
+    //     age: '',
+    //     phone:'',
+    //     dname:'',
+    //     dphone:'',
+    //     address:'',
+    //     city:'',
+    //     state:'',
+    //     pincode:'',
+    //     image:'',
+    //     remember: true
+    //     },
+    //     validationSchema: PatientSchema,
+    //     onSubmit: () => {
+    //       var ImageURL = image;
+    //       var block = ImageURL.split(";");
+    //       var contentType = block[0].split(":")[1];
+    //       var realData = block[1].split(",")[1];
+        
+    //       axiosInstance.post('patient/',{patrel:obj['id'],pname:nameRef.current.value,pphone:phoneRef.current.value,page:ageRef.current.value,address:addressRef.current.value,city:cityRef.current.value,state:stateRef.current.value,pincode:pinRef.current.value,dname:dnameRef.current.value,dphone:dphoneRef.current.value})
+    //       .then((res)=>{
+    //           console.log(res)
+    //           axiosInstance.post('imagepost/',{pname:res.data.pname,patid:res.data.id,imgstr:realData,type:contentType})
+    //           .then((res)=>{
+    //             navigate('/dashboard/app')
+    //           })
+    //           .catch((err)=>{    
+    //             setErr(err.response.data)
+    //           })
+                  // axiosInstance.post(`start-enroll/${modelId}/${patientId}/`)
+                  // .then((res) => {
+                  //   console.log("Enrollment started:", res);
+                  //   setMessage("Enrollment started...");
+                  //   setLoading(true); // show spinner
+                  //   checkStatus(modelId); // start polling
+                  // })
+                  // .catch((error) => {
+                  //   setErr(error.response?.data || "Error starting enrollment");
+                  //   setLoading(false);
+                  // });
+
+    //           navigate('/dashboard/app')
+    //       })
+    //       .catch((err)=>{
+              
+    //           setErr(err.response.data)
+    //       })
+    //   }
+    // })
+
+
 
     const formik = useFormik({
         initialValues: {
         name: '',
+        modelnumber: '',
         age: '',
         phone:'',
         dname:'',
@@ -124,33 +250,59 @@ const RootStyle = styled(Page)(({ theme }) => ({
         },
         validationSchema: PatientSchema,
         onSubmit: () => {
-          var ImageURL = image;
-          var block = ImageURL.split(";");
-          var contentType = block[0].split(":")[1];
-          var realData = block[1].split(",")[1];
-        
-          axiosInstance.post('elder/patient/',{patrel:obj['id'],pname:nameRef.current.value,pphone:phoneRef.current.value,page:ageRef.current.value,address:addressRef.current.value,city:cityRef.current.value,state:stateRef.current.value,pincode:pinRef.current.value,dname:dnameRef.current.value,dphone:dphoneRef.current.value})
-          .then((res)=>{
-           
-              axiosInstance.post('elder/imagepost/',{pname:res.data.pname,patid:res.data.id,imgstr:realData,type:contentType})
-              .then((res)=>{
-                navigate('/dashboard/app')
-              })
-              .catch((err)=>{    
-                setErr(err.response.data)
-              })
+      //     
+      
+      try {
+        console.log("Submitting:", nameRef.current.value);
 
-              navigate('/dashboard/app')
+        axiosInstance
+          .post("patient/", {
+            patrel: obj.id,
+            pname: nameRef.current.value,
+            pphone: phoneRef.current.value,
+            page: ageRef.current.value,
+            address: addressRef.current.value,
+            city: cityRef.current.value,
+            state: stateRef.current.value,
+            pincode: pinRef.current.value,
+            modelnumber: modelnumberRef.current.value,
+            dname: dnameRef.current.value,
+            dphone: dphoneRef.current.value,
           })
-          .catch((err)=>{
-              
-              setErr(err.response.data)
+          .then((res) => {
+            console.log("Patient created:", res.data);
+
+            const modelId = res.data.modelnumber;
+            const patientId = res.data.id;
+
+            axiosInstance
+              .post(`start-enroll/${modelId}/${patientId}/`)
+              .then((res) => {
+                console.log("Enrollment started:", res);
+                setMessage("Enrollment started...");
+                setLoading(true); // show spinner
+                checkStatus(modelId, patientId); // start polling
+              })
+              .catch((error) => {
+                setErr(error.response?.data || "Error starting enrollment");
+                setLoading(false);
+              });
           })
+          .catch((error) => {
+            setErr(error.response?.data || "Error creating patient");
+          });
+      } catch (error) {
+        setErr(error.response?.data || "Something went wrong");
       }
+
+
+    }
     })
 
 
     const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
+
+
 
 
   return (
@@ -259,6 +411,17 @@ const RootStyle = styled(Page)(({ theme }) => ({
                     error={Boolean(touched.pincode && errors.pincode)}
                     helperText={touched.pincode && errors.pincode}
                 />
+
+                <TextField
+                    fullWidth
+                    inputRef={modelnumberRef}
+                    autoComplete="modelnumber"
+                    type="text"
+                    label="Model number"
+                    {...getFieldProps('modelnumber')}
+                    error={Boolean(touched.modelnumber && errors.modelnumber)}
+                    helperText={touched.modelnumber && errors.modelnumber}
+                />
                 
                 <Stack direction="row" spacing={2}>
                     <TextField
@@ -276,7 +439,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
                         inputRef={dphoneRef}
                         autoComplete="phone"
                         type="text"
-                        label="Doctor's Contact Detail"
+                        label="Doctor's Contact Number"
                         {...getFieldProps('dphone')}
                         error={Boolean(touched.dphone && errors.dphone)}
                         helperText={touched.dphone && errors.dphone}
@@ -284,7 +447,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
                 </Stack> 
                 
 
-                <Stack direction="row" >
+                {/* <Stack direction="row" >
                     {image == '' ? 
                     <Webcam
                         audio={false}
@@ -320,7 +483,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
                     Capture Image
                     </Button>
                     }
-                </Stack>
+                </Stack> */}
 
                 <Button
                   style={{width:'150px',alignSelf:'center'}}
@@ -332,6 +495,10 @@ const RootStyle = styled(Page)(({ theme }) => ({
                 Submit
                 </Button>
                 </Stack>
+
+                {loading && <p> Processing...</p>}
+                {message && !loading && <p>{message}</p>}
+                {err && <p style={{ color: "red" }}>{err}</p>}
             </Form>
             </FormikProvider>
 

@@ -4,6 +4,8 @@ import axiosInstance from '../axiosInstance';
 import { UserContext } from './UserContext'; 
 
 export default function useAuth() {
+    const BaseUrl = process.env.REACT_APP_SERVER_URL
+
     const defaultSize = {
         fontSize: 18
     }
@@ -26,7 +28,7 @@ export default function useAuth() {
 
     //set user
     const setUserContext = async () => {
-        return await axiosInstance.post('elder/verify/')
+        return await axiosInstance.post('verify/')
         .then(res => { 
             const obj = JSON.parse(res.data)
             setUser(res.data); 
@@ -46,13 +48,14 @@ export default function useAuth() {
 
     //register user  
     const registerUser = async (name, email, phone, password, is_medical,hospname=null,address=null,city=null,state=null,pincode=null) => {
+        console.log(name, email, phone, password, is_medical)
         
         
-        return axiosInstance.post('elder/profile/',{name,email,password,phone,is_medical})
+        return axiosInstance.post(`${BaseUrl}profile/`,{name,email,password,phone,is_medical})
         .then((res)=>{
             if(is_medical){
                 // console.log(res.data['id'])
-                axiosInstance.post('elder/medstaff/',{medstaff:res.data['id'],hospname,address,city,state,pincode}) 
+                axiosInstance.post(`${BaseUrl}medstaff/`,{medstaff:res.data['id'],hospname,address,city,state,pincode}) 
                 .then((res)=>navigate('/login'))    
                 .catch(err=>setErr(err.response.data))          
             }
@@ -62,6 +65,7 @@ export default function useAuth() {
         .catch((err)=>{
             
             if('email' in err.response.data){
+                console("email", err.response.data)
                 setErr(err.response.data.email[0])
             }
             else if('phone' in err.response.data){
@@ -76,11 +80,12 @@ export default function useAuth() {
 
     //login user 
     const loginUser = async (email,password) => {
-        return (axiosInstance.post(`elder/auth/token/`, {
+        return (axiosInstance.post(`${BaseUrl}auth/token/`, {
           email,
           password,
         })
         .then((res) => {
+            console.log(res)
             localStorage.setItem('access_token', res.data.access);
             localStorage.setItem('refresh_token', res.data.refresh);
             axiosInstance.defaults.headers['Authorization'] =
@@ -109,7 +114,7 @@ export default function useAuth() {
     }
 
     const getUserList=async()=>{
-        return await axiosInstance.post('verify/')
+        return await axiosInstance.post(`${BaseUrl}verify/`)
         .then(res => { 
             const obj = JSON.parse(res.data)
 

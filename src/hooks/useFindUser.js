@@ -3,12 +3,13 @@ import axiosInstance from '../axiosInstance';
 
 
 export default function useFindUser() {
+    const BaseUrl = process.env.REACT_APP_SERVER_URL
     const [user, setUser] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() =>{
         async function findUser() {
-        await axiosInstance.post('elder/verify/')
+        await axiosInstance.post(`verify/`)
         .then(res => {
             setUser(res.data);
             // console.log("userdaat: ",res.data)

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BaseUrl = "https://elderly-server.autobuddys.in/";
-// const BaseUrl = 'http://127.0.0.1:8000/elder/'
+// const BaseUrl = "https://elderly-server.autobuddys.in/";
+const BaseUrl = process.env.REACT_APP_SERVER_URL
 
 const axiosInstance = axios.create({
   baseURL: BaseUrl,
@@ -84,4 +84,3 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
-export { BaseUrl };
