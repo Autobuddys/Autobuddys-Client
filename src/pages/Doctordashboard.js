@@ -49,7 +49,7 @@ import axios from 'axios'
 
 
 // ----------------------------------------------------------------------
-const BaseUrl = "https://elderly-server.autobuddys.in/elder/";
+const BaseUrl = process.env.REACT_APP_SERVER_URL
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Patient Name', alignRight: false },
