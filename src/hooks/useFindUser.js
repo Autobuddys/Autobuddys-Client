@@ -3,7 +3,7 @@ import axiosInstance from '../axiosInstance';
 
 
 export default function useFindUser() {
-    const BaseUrl = "https://elderly-server.autobuddys.in/";
+    const BaseUrl = "https://elderly-server.autobuddys.in/elder/";
     const [user, setUser] = useState(null);
     const [isLoading, setLoading] = useState(true);
 

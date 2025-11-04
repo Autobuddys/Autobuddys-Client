@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BaseUrl = "https://elderly-server.autobuddys.in/";
-const BaseUrl = "https://elderly-server.autobuddys.in/";
+// const BaseUrl = "https://elderly-server.autobuddys.in/elder/";
+const BaseUrl = "https://elderly-server.autobuddys.in/elder/";
 
 const axiosInstance = axios.create({
   baseURL: BaseUrl,
