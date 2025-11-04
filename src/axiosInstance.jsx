@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const BaseUrl = "https://elderly-server.autobuddys.in/";
-const BaseUrl = process.env.REACT_APP_SERVER_URL
+const BaseUrl = "https://elderly-server.autobuddys.in/";
 
 const axiosInstance = axios.create({
   baseURL: BaseUrl,
