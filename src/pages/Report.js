@@ -93,9 +93,12 @@ export default function Report() {
               axios
                 .get(`${urltp}report-data/3`, {
                   headers: {
+
                     Authorization: localStorage.getItem("access_token")
-                      ? "JWT " + localStorage.getItem("access_token")
+                      ? "Bearer " + localStorage.getItem("access_token")
                       : null,
+
+
                   },
                   responseType: "blob",
                 })
